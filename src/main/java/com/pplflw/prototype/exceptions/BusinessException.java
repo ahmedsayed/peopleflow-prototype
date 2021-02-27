@@ -1,11 +1,11 @@
 package com.pplflw.prototype.exceptions;
 
-public class BusinessException {
+public class BusinessException extends Throwable {
 
-   private String object;
-   private String field;
-   private Object rejectedValue;
-   private String message;
+    private String object;
+    private String field;
+    private Object rejectedValue;
+    private String message;
 
     public BusinessException(String object, String field, Object rejectedValue, String message) {
         this.object = object;
@@ -15,11 +15,11 @@ public class BusinessException {
     }
 
     public BusinessException(String object, String message) {
-       this.object = object;
-       this.message = message;
-   }
-   
-   public String getObject() {
+        this.object = object;
+        this.message = message;
+    }
+
+    public String getObject() {
         return object;
     }
 
@@ -49,5 +49,15 @@ public class BusinessException {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return "BusinessException{" +
+                "object='" + object + '\'' +
+                ", field='" + field + '\'' +
+                ", rejectedValue=" + rejectedValue +
+                ", message='" + message + '\'' +
+                '}';
     }
 }

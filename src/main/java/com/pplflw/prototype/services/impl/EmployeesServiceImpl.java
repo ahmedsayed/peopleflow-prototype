@@ -2,8 +2,12 @@ package com.pplflw.prototype.services.impl;
 
 import com.pplflw.prototype.config.constants.KafkaConstants;
 import com.pplflw.prototype.domains.Employee;
+import com.pplflw.prototype.domains.EmployeeContract;
+import com.pplflw.prototype.domains.Employer;
+import com.pplflw.prototype.exceptions.BusinessException;
 import com.pplflw.prototype.exceptions.ResourceNotFoundException;
 import com.pplflw.prototype.repositories.EmployeesRepository;
+import com.pplflw.prototype.repositories.EmployersRepository;
 import com.pplflw.prototype.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -18,17 +22,23 @@ import java.util.Optional;
 public class EmployeesServiceImpl implements EmployeesService {
 
     private final EmployeesRepository employeesRepository;
+    private final EmployersRepository employersRepository;
     private final KafkaTemplate<String, Employee> employeeKafkaTemplate;
 
     @Autowired
-    public EmployeesServiceImpl(EmployeesRepository employeesRepository, KafkaTemplate<String, Employee> employeeKafkaTemplate) {
+    public EmployeesServiceImpl(EmployeesRepository employeesRepository,
+                                EmployersRepository employersRepository,
+                                KafkaTemplate<String, Employee> employeeKafkaTemplate) {
         this.employeesRepository = employeesRepository;
+        this.employersRepository = employersRepository;
         this.employeeKafkaTemplate = employeeKafkaTemplate;
     }
 
     @Override
-    public Employee addEmployee(Employee employee) {
-        //TODO validate
+    public Employee addEmployee(Employee employee) throws BusinessException {
+        
+        validateNewEmployee(employee);
+
         Employee savedEmployee = employeesRepository.save(employee);
         
         if(savedEmployee.getId() != null) {
@@ -39,7 +49,7 @@ public class EmployeesServiceImpl implements EmployeesService {
     }
 
     @Override
-    public Employee updateEmployee(Employee employee) {
+    public Employee updateEmployeeStatus(Employee employee) throws BusinessException {
         Optional<Employee> exitingEmployee = this.employeesRepository.findById(employee.getId());
 
         if (exitingEmployee.isPresent()) {
@@ -71,5 +81,30 @@ public class EmployeesServiceImpl implements EmployeesService {
         } else {
             throw new ResourceNotFoundException("Record not found with id: " + employeeId);
         }
+    }
+    
+    private void validateNewEmployee(Employee employee) throws BusinessException {
+        
+        if(employee.getContracts() != null) {
+            if(employee.getContracts().size() == 1) {
+                EmployeeContract contract = employee.getContracts().get(0);
+                
+                if(contract == null || contract.getEmployer() == null) {
+                    throw new BusinessException("employeeContract", "employer", null, "Contract's Employer is missing.");
+                } else {
+                    Optional<Employer> savedEmployer = employersRepository.findById(contract.getEmployer().getId());
+                
+                    if(savedEmployer.isPresent() && savedEmployer.get().isActive()) {
+                        contract.setEmployer(savedEmployer.get());
+                    } else {
+                        throw new BusinessException("employeeContract", "employer", null, "Invalid Contract's Employer.");
+                    }
+                }
+            } else if(employee.getContracts().size() > 1) {
+                throw new BusinessException("employee", "contracts", null, "New Employee cannot have more than one contract.");
+            }
+        }
+        
+        // Add any other validation here..
     }
 }

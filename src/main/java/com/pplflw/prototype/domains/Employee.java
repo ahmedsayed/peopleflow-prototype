@@ -1,11 +1,8 @@
 package com.pplflw.prototype.domains;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.pplflw.prototype.config.constants.JpaConstants;
+import com.pplflw.prototype.domains.enums.EmployeeStatus;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -28,10 +25,10 @@ public class Employee extends Auditable {
     @Column(name = "status")
     private EmployeeStatus status;
     
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<EmployeeContract> contracts;
 
-    public Employee() {
+    protected Employee() {
     }
 
     public Employee(String firstName, String lastName, EmployeeStatus status) {
@@ -62,5 +59,26 @@ public class Employee extends Auditable {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public List<EmployeeContract> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(List<EmployeeContract> contracts) {
+        this.contracts = contracts;
+        if(this.contracts != null) {
+            for(EmployeeContract contract : this.contracts) {
+                contract.setEmployee(this);
+            }
+        }
+    }
+
+    public EmployeeStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(EmployeeStatus status) {
+        this.status = status;
     }
 }

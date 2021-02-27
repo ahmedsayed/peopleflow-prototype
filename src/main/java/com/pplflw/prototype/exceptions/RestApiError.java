@@ -1,39 +1,39 @@
 package com.pplflw.prototype.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.pplflw.prototype.config.constants.JpaConstants;
 import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-public class RestApiException {
+public class RestApiError {
 
    private HttpStatus status;
    
-   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss[.SSS][.SS][.S]")
+   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = JpaConstants.DATA_TIME_FORMAT)
    private LocalDateTime timestamp;
    
    private String message;
    private String debugMessage;
-   private List<BusinessException> businessExceptions;
+   private BusinessException businessException;
 
-   private RestApiException() {
+   private RestApiError() {
        this.timestamp = LocalDateTime.now();
    }
 
-   public RestApiException(HttpStatus status) {
+   public RestApiError(HttpStatus status) {
        this();
        this.status = status;
    }
 
-   public RestApiException(HttpStatus status, Throwable ex) {
+   public RestApiError(HttpStatus status, Throwable ex) {
        this();
        this.status = status;
        this.message = "Unexpected error";
        this.debugMessage = ex.getLocalizedMessage();
    }
 
-   public RestApiException(HttpStatus status, String message, Throwable ex) {
+   public RestApiError(HttpStatus status, String message, Throwable ex) {
        this();
        this.status = status;
        this.message = message;
@@ -72,11 +72,11 @@ public class RestApiException {
         this.debugMessage = debugMessage;
     }
 
-    public List<BusinessException> getBusinessExceptions() {
-        return businessExceptions;
+    public BusinessException getBusinessException() {
+        return businessException;
     }
 
-    public void setBusinessExceptions(List<BusinessException> businessExceptions) {
-        this.businessExceptions = businessExceptions;
+    public void setBusinessException(BusinessException businessException) {
+        this.businessException = businessException;
     }
 }

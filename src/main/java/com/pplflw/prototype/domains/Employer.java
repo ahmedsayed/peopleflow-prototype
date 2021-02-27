@@ -18,7 +18,7 @@ public class Employer {
     @Column(name = "active")
     private Boolean active;
 
-    private Employer(){
+    protected Employer(){
     }
     
     public Employer(Long id, String name, Boolean active) {
@@ -43,7 +43,7 @@ public class Employer {
         this.name = name;
     }
 
-    public Boolean getActive() {
+    public Boolean isActive() {
         return active;
     }
 

@@ -1,6 +1,7 @@
 package com.pplflw.prototype.web.rest;
 
 import com.pplflw.prototype.domains.Employee;
+import com.pplflw.prototype.domains.enums.EmployeeStatus;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.BDDMockito;
@@ -35,8 +36,7 @@ public class EmployeesControllerTest {
     @Test
     public void findEmployeesTest() throws Exception {
         
-        Employee employee = new Employee();
-        employee.setFirstName("ahmed");
+        Employee employee = new Employee("ahmed", "sayed", EmployeeStatus.ADDED);
         
         Answer<ResponseEntity<List<Employee>>> allEmployees = setupDummyListAnswer(employee);
 

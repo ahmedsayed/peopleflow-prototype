@@ -1,6 +1,7 @@
 package com.pplflw.prototype.domains;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pplflw.prototype.config.constants.JpaConstants;
 
 import javax.persistence.*;
@@ -33,23 +34,25 @@ public class EmployeeContract extends Auditable {
     private boolean active;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "employee_id", nullable = false)
     private Employee employee;
 
-    @Column(name = "employer_id", nullable = false)
-    private Long employerId;
+    @ManyToOne
+    @JoinColumn(name = "employer_id", updatable = false, insertable = false)
+    private Employer employer;
 
-    private EmployeeContract() {
+    protected EmployeeContract() {
     }
 
     public EmployeeContract(LocalDateTime startDate, LocalDateTime endDate, BigDecimal salary, boolean active,
-                            Employee employee, Long employerId) {
+                            Employee employee, Employer employer) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.salary = salary;
         this.active = active;
         this.employee = employee;
-        this.employerId = employerId;
+        this.employer = employer;
     }
 
     public Long getId() {
@@ -100,11 +103,11 @@ public class EmployeeContract extends Auditable {
         this.employee = employee;
     }
 
-    public Long getEmployerId() {
-        return employerId;
+    public Employer getEmployer() {
+        return employer;
     }
 
-    public void setEmployerId(Long employerId) {
-        this.employerId = employerId;
+    public void setEmployer(Employer employer) {
+        this.employer = employer;
     }
 }
