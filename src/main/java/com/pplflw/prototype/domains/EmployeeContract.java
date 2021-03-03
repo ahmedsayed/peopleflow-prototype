@@ -14,9 +14,7 @@ public class EmployeeContract extends Auditable {
 
     @Id
     @GeneratedValue(generator = "employee_contract_generator")
-    @SequenceGenerator(
-            name = "employee_contract_generator",
-            sequenceName = "employee_contract_sequence")
+    @SequenceGenerator(name = "employee_contract_generator", sequenceName = "employee_contract_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "start_date", nullable = false, updatable = false)

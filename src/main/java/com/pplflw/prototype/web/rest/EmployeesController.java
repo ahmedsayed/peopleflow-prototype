@@ -1,6 +1,7 @@
 package com.pplflw.prototype.web.rest;
 
 import com.pplflw.prototype.domains.Employee;
+import com.pplflw.prototype.domains.enums.EmployeeStatusEvent;
 import com.pplflw.prototype.exceptions.BusinessException;
 import com.pplflw.prototype.services.EmployeesService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +38,9 @@ public class EmployeesController {
         return ResponseEntity.ok().body(employeesService.addEmployee(employee));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Employee> updateEmployee(@PathVariable long id, @RequestBody Employee employee) 
+    @PutMapping("/{id}/{event}")
+    public ResponseEntity<Employee> updateEmployeeStatus(@PathVariable long id, @PathVariable String event) 
             throws BusinessException {
-        employee.setId(id);
-        return ResponseEntity.ok().body(this.employeesService.updateEmployeeStatus(employee));
+        return ResponseEntity.ok().body(this.employeesService.updateEmployeeStatus(id, EmployeeStatusEvent.valueOf(event)));
     }
 }

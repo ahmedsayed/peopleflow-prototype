@@ -11,9 +11,7 @@ public class Employee extends Auditable {
 
     @Id
     @GeneratedValue(generator = "employee_generator")
-    @SequenceGenerator(
-            name = "employee_generator",
-            sequenceName = "employee_sequence")
+    @SequenceGenerator(name = "employee_generator", sequenceName = "employee_sequence", allocationSize = 1)
     private Long id;
     
     @Column(name = "first_name")
@@ -23,11 +21,12 @@ public class Employee extends Auditable {
     private String lastName;
     
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private EmployeeStatus status;
     
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     private List<EmployeeContract> contracts;
-
+    
     protected Employee() {
     }
 
