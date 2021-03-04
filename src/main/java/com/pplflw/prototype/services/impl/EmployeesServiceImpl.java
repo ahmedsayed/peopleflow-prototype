@@ -40,7 +40,8 @@ public class EmployeesServiceImpl implements EmployeesService {
     @Autowired
     public EmployeesServiceImpl(EmployeesRepository employeesRepository,
                                 EmployersRepository employersRepository,
-                                KafkaTemplate<String, Employee> employeeKafkaTemplate, 
+                                KafkaTemplate<String, Employee> employeeKafkaTemplate,
+                                @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection") 
                                 StateMachineFactory<EmployeeStatus, EmployeeStatusEvent> stateMachineFactory) {
         this.employeesRepository = employeesRepository;
         this.employersRepository = employersRepository;

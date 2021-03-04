@@ -22,7 +22,6 @@ public class EmployeesController {
         this.employeesService = employeesService;
     }
 
-    //TODO handle exceptions
     @GetMapping("/all")
     public ResponseEntity<List<Employee>> findAll() {
         return ResponseEntity.ok().body(employeesService.findEmployees());

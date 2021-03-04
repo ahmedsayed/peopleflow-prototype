@@ -10,8 +10,7 @@ import java.util.List;
 public class Employee extends Auditable {
 
     @Id
-    @GeneratedValue(generator = "employee_generator")
-    @SequenceGenerator(name = "employee_generator", sequenceName = "employee_sequence", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
     @Column(name = "first_name")

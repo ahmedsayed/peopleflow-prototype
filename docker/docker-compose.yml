@@ -9,16 +9,18 @@ services:
 #    depends_on:
 #      - postgres
 #      - broker
+#    environment:
+#      - BROKER_URL=broker:29092
+#      - DATABASE_URL=jdbc:postgresql://postgres:5432/pplflw
 
-  postgres:
-    image: postgres:12-alpine
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+  mariadb:
+    image: mariadb
     ports:
-      - 5432:5432
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: idc
     volumes:
-      - "./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d"
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
   zookeeper:
     image: confluentinc/cp-zookeeper:6.1.0

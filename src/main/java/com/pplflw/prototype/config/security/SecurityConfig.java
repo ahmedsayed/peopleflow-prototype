@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 /**
  * Simple security configuration with basic authentication to be used as only a starting point.
+ * For production we can use JWT or a standalone CAS if we will integrate with another systems.
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
