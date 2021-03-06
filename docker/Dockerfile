@@ -6,7 +6,7 @@ COPY pom.xml /build/
 COPY src /build/src/
 
 WORKDIR /build/
-RUN mvn package -Dmaven.test.skip
+RUN mvn package
 
 FROM amazoncorretto:11.0.10-alpine
 

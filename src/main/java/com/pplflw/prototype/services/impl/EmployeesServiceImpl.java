@@ -57,13 +57,9 @@ public class EmployeesServiceImpl implements EmployeesService {
         validateNewEmployee(employee);
 
         employee.setStatus(initialEmployeeStatus);
-        
-        Employee savedEmployee = employeesRepository.save(employee);
-        
-        if(savedEmployee.getId() != null) {
-            employeeKafkaTemplate.send(KafkaConstants.EMPLOYEES_TOPIC_NAME, employee.getId().toString(), employee);
-        }
-        
+
+        Employee savedEmployee = saveAndSendEmployee(employee);
+
         return savedEmployee;
     }
 
@@ -82,9 +78,9 @@ public class EmployeesServiceImpl implements EmployeesService {
             }
 
             employee.setStatus(machine.getState().getId());
-            
-            employeesRepository.save(employee);
-            return employee;
+
+            Employee savedEmployee = saveAndSendEmployee(employee);
+            return savedEmployee;
         } else {
             throw new ResourceNotFoundException("Record not found with id: " + employeeId);
         }
@@ -129,6 +125,15 @@ public class EmployeesServiceImpl implements EmployeesService {
         }
         
         // Add any other validation here..
+    }
+
+    private Employee saveAndSendEmployee(Employee employee) {
+        Employee savedEmployee = employeesRepository.save(employee);
+
+        if(savedEmployee.getId() != null) {
+            employeeKafkaTemplate.send(KafkaConstants.EMPLOYEES_TOPIC_NAME, savedEmployee.getId().toString(), savedEmployee);
+        }
+        return savedEmployee;
     }
     
     private StateMachine<EmployeeStatus, EmployeeStatusEvent> initEmployeeStatus(Long employeeId, EmployeeStatus employeeStatus) {

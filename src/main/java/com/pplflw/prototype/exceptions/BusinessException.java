@@ -1,6 +1,6 @@
 package com.pplflw.prototype.exceptions;
 
-public class BusinessException extends Throwable {
+public class BusinessException extends Exception {
 
     private String object;
     private String field;

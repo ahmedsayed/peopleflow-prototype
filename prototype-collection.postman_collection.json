@@ -1,0 +1,231 @@
+{
+	"info": {
+		"_postman_id": "db0b583e-5345-468d-933a-cbee6a7eb70c",
+		"name": "prototype-collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add Employee",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "a3f64e0a-a37a-4ee6-9cdc-a8363235c3fd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Ahmed\",\r\n  \"lastName\": \"Sayed\",\r\n  \"contracts\": [\r\n    {\r\n      \"startDate\": \"2021-02-21T19:29:28\",\r\n      \"endDate\": \"2022-02-21T19:29:28\",\r\n      \"salary\": 1000.25,\r\n      \"active\": true,\r\n      \"employer\": {\r\n          \"id\": 1\r\n      }\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/employees/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employees",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee Status",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "a3f64e0a-a37a-4ee6-9cdc-a8363235c3fd",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/employees/1/ACTIVATE",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employees",
+						"1",
+						"ACTIVATE"
+					]
+				},
+				"description": "Allowed events {START_CHECK, APPROVE, ACTIVATE}"
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Employees",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employees/all",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employees",
+						"all"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "admin",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "pass",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/employees/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"employees",
+						"1"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "admin",
+							"disabled": true
+						},
+						{
+							"key": "password",
+							"value": "admin",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

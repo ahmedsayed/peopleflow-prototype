@@ -13,7 +13,8 @@ import java.time.LocalDateTime;
 public class EmployeeContract extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "employee_contract_generator")
+    @SequenceGenerator(name = "employee_contract_generator", sequenceName = "employee_contract_sequence", allocationSize = 1)
     private Long id;
 
     @Column(name = "start_date", nullable = false, updatable = false)
@@ -36,7 +37,7 @@ public class EmployeeContract extends Auditable {
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "employer_id", updatable = false, insertable = false)
+    @JoinColumn(name = "employer_id")
     private Employer employer;
 
     protected EmployeeContract() {

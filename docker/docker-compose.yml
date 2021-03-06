@@ -1,24 +1,25 @@
 version: '2'
 services:
-#  prototype:
-#    build:
-#      context: ../.
-#      dockerfile: ./docker/Dockerfile
-#    ports:
-#      - 8080:8080
-#    depends_on:
-#      - postgres
-#      - broker
-#    environment:
-#      - BROKER_URL=broker:29092
-#      - DATABASE_URL=jdbc:postgresql://postgres:5432/pplflw
-
-  mariadb:
-    image: mariadb
+  prototype:
+    build:
+      context: ../.
+      dockerfile: ./docker/Dockerfile
     ports:
-      - 3306:3306
+      - 8080:8080
+    depends_on:
+      - postgres
+      - broker
     environment:
-      MYSQL_ROOT_PASSWORD: idc
+      - BROKER_URL=broker:29092
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/pplflw
+
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
     volumes:
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 

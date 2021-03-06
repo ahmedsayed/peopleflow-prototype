@@ -1,6 +1,8 @@
 package com.pplflw.prototype.domains;
 
 import com.pplflw.prototype.domains.enums.EmployeeStatus;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +12,8 @@ import java.util.List;
 public class Employee extends Auditable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "employee_generator")
+    @SequenceGenerator(name = "employee_generator", sequenceName = "employee_sequence", allocationSize = 1)
     private Long id;
     
     @Column(name = "first_name")
@@ -29,10 +32,9 @@ public class Employee extends Auditable {
     protected Employee() {
     }
 
-    public Employee(String firstName, String lastName, EmployeeStatus status) {
+    public Employee(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.status = status;
     }
 
     public Long getId() {
@@ -78,5 +80,27 @@ public class Employee extends Auditable {
 
     public void setStatus(EmployeeStatus status) {
         this.status = status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Employee employee = (Employee) o;
+
+        return new EqualsBuilder()
+                .append(firstName, employee.firstName)
+                .append(lastName, employee.lastName)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(firstName)
+                .append(lastName)
+                .toHashCode();
     }
 }
